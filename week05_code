@@ -1,0 +1,62 @@
+Dev-C++
+//LedToggle.h
+#ifndef LedToggle_h
+#define LedToggle_h
+
+#include "Arduino.h"
+
+class LedToggle {
+public:
+    LedToggle(int pin);
+    LedToggle(int pin, unsigned long delayTime);  
+    void toggle();
+
+private:
+    int _pin;
+    bool _state;
+    unsigned long _delayTime = 0;  
+};
+
+#endif
+
+//LedToggle.cpp
+#include "LedToggle.h"
+
+LedToggle::LedToggle(int pin) {
+    _pin = pin;
+    _state = false;
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, LOW);
+}
+
+LedToggle::LedToggle(int pin, unsigned long delayTime){
+    _pin = pin;
+    _state = false;
+    _delayTime = delayTime;
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, LOW);
+}
+
+void LedToggle::toggle() {
+	if(_delayTime > 0){
+		delay(_delayTime);
+	}
+    _state = !_state;
+    digitalWrite(_pin, _state ? HIGH : LOW);
+}
+
+
+
+
+ARDUINO CODE
+#include <LedToggle.h>
+
+LedToggle led(LED_BUILTIN);
+
+void setup(){
+}
+
+void loop() {
+  led.toggle();
+  delay(500);
+}
